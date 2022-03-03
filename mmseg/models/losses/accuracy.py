@@ -48,8 +48,8 @@ def accuracy(pred, target, topk=1, thresh=None, ignore_index=None):
     res = []
     for k in topk:
         correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
-        res.append(
-            correct_k.mul_(100.0 / target[target != ignore_index].numel()))
+        mul_val = 0.0 if target[target != ignore_index].numel() == 0 else 100.0 / target[target != ignore_index].numel()
+        res.append(correct_k.mul_(mul_val))
     return res[0] if return_single else res
 
 
