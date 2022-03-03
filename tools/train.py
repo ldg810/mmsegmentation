@@ -18,6 +18,8 @@ from mmseg.datasets import build_dataset
 from mmseg.models import build_segmentor
 from mmseg.utils import collect_env, get_root_logger, setup_multi_processes
 
+import wandb
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a segmentor')
@@ -103,6 +105,8 @@ def parse_args():
 
 
 def main():
+    if os.environ['LOCAL_RANK'] == '0':
+        wandb.init(project="karibuilding-segmentation", entity="ldg810")
     args = parse_args()
 
     cfg = Config.fromfile(args.config)
